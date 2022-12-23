@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         btn_delete.setOnClickListener(view ->{
-            if(ed_book.length() < 1 || ed_price.length() < 1){
+            if(ed_book.length() < 1){
                 Toast.makeText(MainActivity.this, "書名請物留空", Toast.LENGTH_SHORT).show();
             }
             else{
