@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private SQLiteDatabase dbrw;
 
     @Override
-    protected void onDestory(){
+    protected void onDestroy(){
         super.onDestroy();
         dbrw.close();
     }
@@ -98,17 +98,26 @@ public class MainActivity extends AppCompatActivity {
                 }
                 catch(Exception e){
                     e.printStackTrace();
-                    Toast.makeText(MainActivity.this, "更新失敗"+e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "刪除失敗"+e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
 
         });
 
-        btn_delete.setOnClickListener(view ->{
+        btn_quert.setOnClickListener(view ->{
             Cursor c;
             if(ed_book.length() < 1) c = dbrw.rawQuery(" SELECT * FROM myTable", null);
             else c = dbrw.rawQuery(" SELECT * FROM myTable WHERE book LIKE '"+ed_book.getText().toString()+"'", null);
 
+            c.moveToFirst();
+            items.clear();
+            Toast.makeText(MainActivity.this, "共有"+c.getCount()+"筆",Toast.LENGTH_SHORT).show();
+            for(int i = 0; i<c.getCount();i++){
+            items.add("書籍"+c.getString(0) + "\t\t\t\t價格:"+c.getString(1));
+            c.moveToNext();
+            }
+            adapter.notifyDataSetChanged();
+            c.close();
         });
     }
 }
